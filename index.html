@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bedrock Prompt Game</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f2f2f2; }
+    input { width: 80%; padding: 0.5rem; font-size: 1rem; }
+    button { padding: 0.5rem 1rem; font-size: 1rem; }
+    #response { margin-top: 1rem; background: #fff; padding: 1rem; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>💬 Bedrock Prompt Injection Challenge</h1>
+  <p>질문을 입력하세요:</p>
+  <input type="text" id="question" placeholder="volume snapshot이 뭔가요?" />
+  <button onclick="send()">보내기</button>
+  <div id="response"></div>
+
+  <script>
+    async function send() {
+      const q = document.getElementById("question").value;
+      const api = "https://9v7svutyx3.execute-api.us-east-1.amazonaws.com";  // API Gateway base URL
+
+      // ↓ 반드시 /ask 붙여야 함
+      const res = await fetch(`${api}/ask?q=${encodeURIComponent(q)}`);
+      const data = await res.json();
+      document.getElementById("response").innerText = data.answer || JSON.stringify(data);
+    }
+  </script>
+</body>
+</html>
